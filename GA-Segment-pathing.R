@@ -4,22 +4,21 @@ library(ggplot2)
 library(stringr)
 
 ## managing oAuth()
-ga_auth(new_user = TRUE)
+ga_auth()
 
-meta <- google_analytics_meta()
 # get list of accounts
-account_list <- ga_account_list()
+#account_list <- ga_account_list()
 
 
-id <- "ga:121373285"
+id <- "ga:55024839"
 
-date <- c("2017-07-20", "2017-08-05")
+date <- c("2020-07-05", "2020-07-05")
 
-content_group <- google_analytics_4(id, date_range = date, metrics = "ga:pageviews", dimension = "ga:contentGroup1",filter = "ga:contentGroup1!=(not set)")
-content_group <- content_group$contentGroup1
+content_group <- google_analytics_4(id, date_range = date, metrics = "ga:pageviews", dimension = "ga:contentGroup2",filter = "ga:contentGroup1!=(not set)")
+content_group <- content_group$contentGroup2
 content_group[length(content_group)+1] <- ""
 
-firstComb <- expand.grid(content_group,content_group,content_group)
+firstComb <- expand.grid(content_group,content_group)
 
 isCombinationValid <- function(row,df) {
   isValid <- TRUE
@@ -66,12 +65,8 @@ output <- subset(firstComb, values!="NA")
 rownames(output) <- seq(length=nrow(output))
 
 
-write.table(as.matrix(output), file="C:/Users/sebastiano.montino/Documents/exp.csv",sep="\t", row.names = FALSE)
+write.table(as.matrix(output), file="/Users/sebastianomontino/exp.csv",sep="\t", row.names = FALSE)
 
 #Alluvial R
 library("alluvial")
 alluvial(output,freq=as.numeric(output$values))
-
-
-
-
